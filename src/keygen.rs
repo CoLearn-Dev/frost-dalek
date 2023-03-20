@@ -193,7 +193,7 @@ use crate::parameters::Parameters;
 
 /// A struct for holding a shard of the shared secret, in order to ensure that
 /// the shard is overwritten with zeroes when it falls out of scope.
-#[derive(Zeroize)]
+#[derive(Zeroize, serde::Serialize, serde::Deserialize)]
 #[zeroize(drop)]
 pub struct Coefficients(pub(crate) Vec<Scalar>);
 
@@ -216,7 +216,7 @@ pub struct DealtParticipant {
 }
 
 /// A participant in a threshold signing.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
 pub struct Participant {
     /// The index of this participant, to keep the participants in order.
     pub index: u32,
@@ -567,7 +567,7 @@ impl DistributedKeyGeneration<RoundOne> {
 
 /// A secret share calculated by evaluating a polynomial with secret
 /// coefficients for some indeterminant.
-#[derive(Clone, Debug, Zeroize)]
+#[derive(Clone, Debug, Zeroize, serde::Serialize, serde::Deserialize)]
 #[zeroize(drop)]
 pub struct SecretShare {
     /// The participant index that this secret share was calculated for.
@@ -679,7 +679,7 @@ impl DistributedKeyGeneration<RoundTwo> {
 ///
 /// Any participant can recalculate the public verification share, which is the
 /// public half of a [`SecretKey`], of any other participant in the protocol.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
 pub struct IndividualPublicKey {
     /// The participant index to which this key belongs.
     pub index: u32,
@@ -727,7 +727,7 @@ impl IndividualPublicKey {
 }
 
 /// A secret key, used by one participant in a threshold signature scheme, to sign a message.
-#[derive(Debug, Zeroize)]
+#[derive(Debug, Zeroize, serde::Serialize, serde::Deserialize)]
 #[zeroize(drop)]
 pub struct SecretKey {
     /// The participant index to which this key belongs.

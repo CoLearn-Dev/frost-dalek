@@ -42,7 +42,7 @@ pub use crate::keygen::SecretKey;
 //     signer's long-term secret key; it must be prevented at all costs.
 
 /// An individual signer in the threshold signature scheme.
-#[derive(Clone, Copy, Debug, Eq)]
+#[derive(Clone, Copy, Debug, Eq, serde::Serialize, serde::Deserialize)]
 pub struct Signer {
     /// The participant index of this signer.
     pub participant_index: u32,
@@ -76,14 +76,14 @@ impl PartialEq for Signer {
 
 /// A partially-constructed threshold signature, made by each participant in the
 /// signing protocol during the first phase of a signature creation.
-#[derive(Debug)]
+#[derive(Debug, serde::Serialize, serde::Deserialize)]
 pub struct PartialThresholdSignature {
     pub(crate) index: u32,
     pub(crate) z: Scalar,
 }
 
 /// A complete, aggregated threshold signature.
-#[derive(Debug)]
+#[derive(Debug, serde::Serialize, serde::Deserialize)]
 pub struct ThresholdSignature {
     pub(crate) R: RistrettoPoint,
     pub(crate) z: Scalar,
